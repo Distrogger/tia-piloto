@@ -74,14 +74,10 @@
                     <span>2. Simulador Estratégico "What-If"</span>
                     <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">Interactivo</span>
                 </button>
-                <button class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-calidad">
-                    <i data-lucide="factory" class="tab-icon w-4 h-4"></i>
-                    <span>3. Balance de Masa & Desposte CDN</span>
-                    <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">250 kg / Res</span>
-                </button>
+                <!-- Pestaña 3 eliminada -->
                 <button class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-logistica">
                     <i data-lucide="truck" class="tab-icon w-4 h-4"></i>
-                    <span>4. Eficiencia Logística & Quinto Cuarto</span>
+                    <span>3. Eficiencia Logística & Subproductos</span>
                     <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">Lote 20 Reses</span>
                 </button>
             </nav>
@@ -139,9 +135,7 @@
                         <span class="font-bold text-slate-800 tabular-nums">$156,90 ahorro / res</span>
                         <span class="text-emerald-600 font-semibold">+$100 vísceras incl.</span>
                     </div>
-                    <div class="mt-2 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between tabular-nums">
-                        <span>Subsidio Vísceras en Canal:</span><strong class="text-emerald-700">-$0,4000 / kg (120 lb)</strong>
-                    </div>
+                    <!-- Subsidio Vísceras en Canal eliminado -->
                 </div>
                 <!-- KPI 3 -->
                 <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
@@ -179,37 +173,20 @@
                 </div>
             </div>
 
-            <!-- Charts Row 1 -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Waterfall Chart -->
-                <div class="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
-                    <div>
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
-                            <div>
-                                <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Storytelling Financiero • Puente de Valor</span>
-                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Deconstrucción del Costo: Del Introductor al Ganado en Pie ($/kg)</h2>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-3 mb-2">Evidencia cómo la compra directa en campo y el subsidio visceral de <strong>$100/res</strong> compensan ampliamente la absorción de costos de camal y transporte logístico.</p>
-                        <div class="h-80 w-full mt-2 relative"><canvas id="waterfallChart"></canvas></div>
-                    </div>
+            <!-- Gráfico 2 eliminado, el Gráfico Escenarios toma el ancho completo -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Evaluación de Alternativas</span>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900">Comparativa de Escenarios (A vs. B vs. C)</h2>
+                    <p class="text-xs text-slate-500 mt-1 mb-3">Desglose por componente de costo ($/kg). El Escenario C triplica el ahorro del Escenario B gracias a la captura de vísceras y compra en pie.</p>
+                    <div class="h-64 w-full relative"><canvas id="escenariosChart"></canvas></div>
                 </div>
-                
-                <!-- Escenarios Comparativa -->
-                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
-                    <div>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Evaluación de Alternativas</span>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Comparativa de Escenarios (A vs. B vs. C)</h2>
-                        <p class="text-xs text-slate-500 mt-1 mb-3">Desglose por componente de costo ($/kg). El Escenario C triplica el ahorro del Escenario B gracias a la captura de vísceras y compra en pie.</p>
-                        <div class="h-64 w-full relative"><canvas id="escenariosChart"></canvas></div>
+                <div class="mt-4 bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 text-xs text-amber-900 space-y-1">
+                    <div class="flex items-center gap-1.5 font-bold text-amber-800">
+                        <i data-lucide="info" class="w-4 h-4 shrink-0 text-amber-600"></i>
+                        <span>Nota de Precisión Analítica (Data Governance):</span>
                     </div>
-                    <div class="mt-4 bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 text-xs text-amber-900 space-y-1">
-                        <div class="flex items-center gap-1.5 font-bold text-amber-800">
-                            <i data-lucide="info" class="w-4 h-4 shrink-0 text-amber-600"></i>
-                            <span>Nota de Precisión Analítica (Data Governance):</span>
-                        </div>
-                        <p class="leading-relaxed text-[11px]">En el <strong>Escenario B (Canal en Campo)</strong>, el costo total es <strong>$4,9040/kg</strong> ($1.226,00/res). Contrastado con el promedio ponderado del Introductor (<strong>$5,1276/kg</strong>), el ahorro matemático exacto es <strong>$0,2236/kg ($55,90/res)</strong> (en minuta preliminar se citó $0,2276/kg). El <strong>Escenario C ($4,5000/kg)</strong> entrega <strong>$0,6276/kg ($156,90/res)</strong>, siendo <strong>2,8 veces más rentable</strong> que el Escenario B.</p>
-                    </div>
+                    <p class="leading-relaxed text-[11px]">En el <strong>Escenario B (Canal en Campo)</strong>, el costo total es <strong>$4,9040/kg</strong> ($1.226,00/res). Contrastado con el promedio ponderado del Introductor (<strong>$5,1276/kg</strong>), el ahorro matemático exacto es <strong>$0,2236/kg ($55,90/res)</strong>. El <strong>Escenario C ($4,5000/kg)</strong> entrega <strong>$0,6276/kg ($156,90/res)</strong>, siendo <strong>2,8 veces más rentable</strong> que el Escenario B.</p>
                 </div>
             </div>
 
@@ -377,127 +354,13 @@
                             </table>
                         </div>
                     </div>
-                    
-                    <!-- Tornado -->
-                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                        <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-3">Tornado: Impacto por Variable ($/kg)</h3>
-                        <div class="h-52 w-full"><canvas id="tornadoChart"></canvas></div>
-                    </div>
+                    <!-- Tornado chart eliminado -->
                 </div>
             </div>
         </div>
 
-        <!-- PESTAÑA 3: BALANCE DE MASA & CDN -->
-        <div id="tab-calidad" class="tab-content space-y-6 pb-8">
-            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
-                    <div>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Ingeniería de Procesos Cárnicos • Balance de Masa</span>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Anatomía de Conversión del Animal Estándar (1.000 lb)</h2>
-                    </div>
-                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Factor Conversión: 55% Canal = 250 kg Carne Útil</span>
-                </div>
-                
-                <div class="mt-5 space-y-2">
-                    <div class="flex justify-between text-xs font-bold text-slate-700">
-                        <span>Distribución Física de 1.000 lb (100% Peso Vivo)</span>
-                        <span>55% Canal Comercial (550 lb) | 45% Quinto Cuarto y Mermas (450 lb)</span>
-                    </div>
-                    <div class="h-11 w-full rounded-xl overflow-hidden flex shadow-inner border border-slate-300 text-[11px] font-bold text-white text-center">
-                        <div style="width: 37.4%" class="bg-rose-700 flex items-center justify-center truncate">Pierna: 170kg (37.4%)</div>
-                        <div style="width: 17.6%" class="bg-rose-500 flex items-center justify-center truncate border-l border-white/20">Brazo: 80kg</div>
-                        <div style="width: 12%" class="bg-emerald-600 flex items-center justify-center truncate border-l border-white/20">Vísceras 12%</div>
-                        <div style="width: 8%" class="bg-amber-600 flex items-center justify-center truncate border-l border-white/20">Cuero 8%</div>
-                        <div style="width: 7%" class="bg-amber-500 flex items-center justify-center truncate border-l border-white/20">Cab/Pat 7%</div>
-                        <div style="width: 18%" class="bg-slate-500 flex items-center justify-center truncate border-l border-white/20">Mermas 18%</div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-                    <!-- Canal -->
-                    <div class="bg-rose-50/50 rounded-xl p-4 border border-rose-200/80 space-y-3">
-                        <h3 class="text-sm font-black text-rose-950 uppercase"><i data-lucide="beef" class="inline w-4 h-4 text-rose-600 mr-1"></i>1. Canal Comercial Útil (55%)</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-white p-3 rounded-lg border border-rose-100 shadow-sm">
-                                <span class="text-[11px] font-bold text-slate-500 uppercase">Pierna</span>
-                                <div class="text-xl font-black text-slate-900 mt-0.5">170 kg</div>
-                                <div class="text-[11px] text-rose-700 font-semibold mt-1">68.0% de la canal</div>
-                            </div>
-                            <div class="bg-white p-3 rounded-lg border border-rose-100 shadow-sm">
-                                <span class="text-[11px] font-bold text-slate-500 uppercase">Brazo</span>
-                                <div class="text-xl font-black text-slate-900 mt-0.5">80 kg</div>
-                                <div class="text-[11px] text-rose-700 font-semibold mt-1">32.0% de la canal</div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Subproductos -->
-                    <div class="bg-slate-100/80 rounded-xl p-4 border border-slate-200 space-y-3">
-                        <h3 class="text-sm font-black text-slate-900 uppercase"><i data-lucide="layers" class="inline w-4 h-4 text-emerald-600 mr-1"></i>2. Subproductos y Mermas (45%)</h3>
-                        <div class="grid grid-cols-3 gap-2.5 pt-1 text-xs">
-                            <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg"><span class="font-bold text-emerald-900 block">Vísceras</span><strong class="text-base font-black text-emerald-700">120 lb</strong><span class="block text-[10px] text-emerald-800 font-semibold mt-0.5">$100</span></div>
-                            <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><span class="font-bold text-slate-700 block">Cuero</span><strong class="text-base font-black text-slate-900">80 lb</strong><span class="block text-[10px] text-amber-700 font-semibold mt-0.5">Upside</span></div>
-                            <div class="bg-slate-200/70 border border-slate-300 p-2.5 rounded-lg"><span class="font-bold text-slate-700 block">Mermas</span><strong class="text-base font-black text-slate-800">180 lb</strong><span class="block text-[10px] text-slate-600">18%</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Dispersión Boxplot CSS -->
-                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                    <h3 class="text-base font-bold text-slate-900 mb-3">Dispersión de Pesos: Introductor vs Campo</h3>
-                    <div class="space-y-4 pt-3">
-                        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
-                            <div class="flex justify-between text-xs font-bold"><span class="text-rose-700">A. Introductor</span><span>Rango: 205 - 295 kg</span></div>
-                            <div class="relative h-8 bg-slate-200 rounded-lg flex items-center px-2">
-                                <div class="w-full h-0.5 bg-rose-400 flex justify-center"><div class="w-3/5 h-5 bg-rose-500/30 border-2 border-rose-600 rounded flex justify-center"><div class="w-0.5 h-full bg-rose-900"></div></div></div>
-                            </div>
-                        </div>
-                        <div class="p-3.5 bg-emerald-50/50 rounded-xl border border-emerald-200 space-y-2">
-                            <div class="flex justify-between text-xs font-bold"><span class="text-emerald-800">C. Ganado TÍA</span><span>Meta: 245 - 255 kg</span></div>
-                            <div class="relative h-8 bg-slate-200 rounded-lg flex items-center px-2 justify-center">
-                                <div class="w-2/5 h-0.5 bg-emerald-600 flex justify-center"><div class="w-2/5 h-5 bg-emerald-500/40 border-2 border-emerald-700 rounded flex justify-center"><div class="w-0.5 h-full bg-emerald-950"></div></div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Simulador CDN -->
-                <div class="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-                    <h3 class="text-base font-bold text-slate-900 mb-4">Simulador de Desposte: Mix Cortes Nobles vs Molienda</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-                            <div>
-                                <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">% Molienda (Intro):</label><span id="out-mol-intro" class="font-bold text-rose-600">22%</span></div>
-                                <input type="range" id="sl-mol-intro" min="15" max="30" value="22" class="w-full text-rose-600">
-                            </div>
-                            <div>
-                                <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">% Meta Molienda (TÍA):</label><span id="out-mol-tia" class="font-bold text-emerald-600">12%</span></div>
-                                <input type="range" id="sl-mol-tia" min="8" max="20" value="12" class="w-full text-emerald-600">
-                            </div>
-                            <div class="grid grid-cols-2 gap-2 pt-1">
-                                <div><label class="text-[11px] font-bold text-slate-600 block">PVP Noble ($/kg)</label><input type="number" id="in-pvp-noble" value="8.90" step="0.1" class="w-full px-2 py-1 text-xs border rounded"></div>
-                                <div><label class="text-[11px] font-bold text-slate-600 block">PVP Mol. ($/kg)</label><input type="number" id="in-pvp-mol" value="5.40" step="0.1" class="w-full px-2 py-1 text-xs border rounded"></div>
-                            </div>
-                        </div>
-                        <div class="bg-slate-900 text-white p-4 rounded-xl flex flex-col justify-between">
-                            <div class="space-y-1.5 text-xs">
-                                <span class="text-[10px] font-bold uppercase text-emerald-400">Efecto Combinado</span>
-                                <div class="flex justify-between"><span class="text-slate-400">Cortes Nobles:</span><strong id="out-noble-comp" class="text-white">64% → 74%</strong></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Ahorro Compra:</span><strong class="text-emerald-400">+$0.6276/kg</strong></div>
-                                <div class="flex justify-between"><span class="text-slate-400">Plusvalía Desposte:</span><strong id="out-plusvalia" class="text-amber-400">+$0.3500/kg</strong></div>
-                            </div>
-                            <div class="pt-3 border-t border-slate-700 mt-3">
-                                <div class="flex justify-between items-baseline"><span class="text-xs font-bold text-slate-300">Beneficio Total:</span><span id="out-ben-total" class="text-xl font-black text-emerald-400">$0.9776/kg</span></div>
-                                <p class="text-[11px] text-slate-400 mt-1">Aporta <strong id="out-extra-mes" class="text-white">$8,750</strong> extras al mes en góndola.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PESTAÑA 4: LOGÍSTICA & SUBPRODUCTOS -->
+        <!-- Pestaña 3 original eliminada. Pestaña 4 pasa a ser la Pestaña 3 -->
+        <!-- PESTAÑA 3: LOGÍSTICA & SUBPRODUCTOS -->
         <div id="tab-logistica" class="tab-content space-y-6 pb-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- Gráfico Logística -->
@@ -565,20 +428,8 @@
         // Setup Charts
         const fmtCur = (v) => '$' + v.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:4});
         
-        // 1. Waterfall
-        const ctxW = document.getElementById('waterfallChart');
-        new Chart(ctxW, {
-            type: 'bar',
-            data: {
-                labels: ['Intro (A)', 'Margen', 'Vísceras', 'Camal', 'Flete', 'Pie (C)'],
-                datasets: [{
-                    data: [[0, 5.1276], [4.7200, 5.1276], [4.3200, 4.7200], [4.3200, 4.4040], [4.4040, 4.5000], [0, 4.5000]],
-                    backgroundColor: ['#64748b', '#10b981', '#10b981', '#f43f5e', '#f43f5e', '#0f172a']
-                }]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false} } }
-        });
-
+        // 1. Waterfall gráfico eliminado
+        
         // 2. Escenarios
         const ctxE = document.getElementById('escenariosChart');
         new Chart(ctxE, {
@@ -619,16 +470,7 @@
             options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // 5. Tornado (Reactive setup below)
-        const ctxT = document.getElementById('tornadoChart');
-        const tornadoChart = new Chart(ctxT, {
-            type: 'bar',
-            data: { labels: ['Precio Pie', 'Rendimiento', 'Subproductos', 'Camión'], datasets: [
-                { label: 'Optimista', data: [0,0,0,0], backgroundColor: '#10b981' },
-                { label: 'Pesimista', data: [0,0,0,0], backgroundColor: '#f43f5e' }
-            ]},
-            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { min: -0.4, max: 0.4 } } }
-        });
+        // 5. Tornado gráfico eliminado
 
         // SIMULATOR LOGIC (Tab 2)
         const slPrice=document.getElementById('sl-price'), slYield=document.getElementById('sl-yield'), slSub=document.getElementById('sl-sub'), slTruck=document.getElementById('sl-truck'), slVol=document.getElementById('sl-vol');
@@ -673,16 +515,6 @@
                 hb+='</tr>';
             });
             document.getElementById('heatmap-body').innerHTML = hb;
-
-            // Tornado
-            let cCost = (pr, yl, sb, tr) => ((1000*pr)-sb+21+(480/tr)) / ((1000*(yl/100))/2.2);
-            let optP = cCost(1.10,y,s,t)-cost; let pesP = cCost(1.26,y,s,t)-cost;
-            let optY = cCost(p,58,s,t)-cost; let pesY = cCost(p,52,s,t)-cost;
-            let optS = cCost(p,y,135,t)-cost; let pesS = cCost(p,y,70,t)-cost;
-            let optT = cCost(p,y,s,24)-cost; let pesT = cCost(p,y,s,10)-cost;
-            tornadoChart.data.datasets[0].data = [-optP, -optY, -optS, -optT]; // Inverting for visual (negative is good/saving)
-            tornadoChart.data.datasets[1].data = [pesP, pesY, pesS, pesT];
-            tornadoChart.update();
         }
         [slPrice, slYield, slSub, slTruck, slVol].forEach(el => el.addEventListener('input', calcSim));
         calcSim();
@@ -694,24 +526,7 @@
             calcSim();
         }
 
-        // CDN DESPOSTE (Tab 3)
-        const slMolInt=document.getElementById('sl-mol-intro'), slMolTia=document.getElementById('sl-mol-tia'), inPNob=document.getElementById('in-pvp-noble'), inPMol=document.getElementById('in-pvp-mol');
-        function calcCDN() {
-            let mi = parseInt(slMolInt.value), mt = parseInt(slMolTia.value), pn = parseFloat(inPNob.value), pm = parseFloat(inPMol.value);
-            document.getElementById('out-mol-intro').innerText = mi+'%';
-            document.getElementById('out-mol-tia').innerText = mt+'%';
-            let ni = 100-14-mi; let nt = 100-14-mt;
-            document.getElementById('out-noble-comp').innerText = `${ni}% → ${nt}%`;
-            let revI = (ni/100)*pn + (mi/100)*pm; let revT = (nt/100)*pn + (mt/100)*pm;
-            let plus = revT - revI;
-            document.getElementById('out-plusvalia').innerText = '+$'+plus.toFixed(4)+'/kg';
-            let bt = 0.6276 + plus;
-            document.getElementById('out-ben-total').innerText = '$'+bt.toFixed(4)+'/kg';
-            document.getElementById('out-extra-mes').innerText = '$'+(plus*25000).toLocaleString('en-US',{maximumFractionDigits:0});
-        }
-        [slMolInt, slMolTia, inPNob, inPMol].forEach(el => el.addEventListener('input', calcCDN)); calcCDN();
-
-        // Q5 (Tab 4)
+        // Q5 (Tab 3 - Antes Tab 4)
         const chkCu=document.getElementById('chk-cuero'), chkCa=document.getElementById('chk-cabeza'), chkPa=document.getElementById('chk-patas');
         const vCu=document.getElementById('val-cuero'), vCa=document.getElementById('val-cabeza'), vPa=document.getElementById('val-patas');
         function calcQ5() {

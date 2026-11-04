@@ -4,265 +4,492 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Ejecutivo - Integración Vertical TÍA</title>
-    <!-- Tailwind CSS (via CDN) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js (via CDN) -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chart.js Datalabels plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Custom styles */
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; }
-        .tab-btn.active { border-bottom: 2px solid #ef4444; color: #ef4444; font-weight: 600; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        .tab-btn.active { border-bottom-width: 2px; border-color: #f43f5e; background-color: #1e293b; color: white; box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); }
+        .tab-btn.active .tab-icon { color: #fb7185; }
+        .tab-btn.active .tab-badge { background-color: #e11d48; color: white; }
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Slider styling */
-        input[type=range] {
-            -webkit-appearance: none;
-            width: 100%;
-            background: transparent;
-        }
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            height: 16px; width: 16px;
-            border-radius: 50%;
-            background: #ef4444;
-            cursor: pointer;
-            margin-top: -6px;
-        }
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 4px;
-            cursor: pointer;
-            background: #d1d5db;
-            border-radius: 2px;
-        }
+        /* Sliders */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: currentColor; cursor: pointer; margin-top: -6px; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #e2e8f0; border-radius: 2px; }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-gray-800">
+<body class="min-h-screen bg-slate-50 text-slate-900 font-sans pb-16">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center space-x-3">
-                    <div class="h-10 w-10 bg-red-600 text-white flex items-center justify-center font-bold text-xl rounded">TÍA</div>
+    <!-- ENCABEZADO EJECUTIVO CORPORATIVO TÍA -->
+    <header class="bg-slate-900 text-white border-b-4 border-rose-600 shadow-lg sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div class="flex items-start sm:items-center gap-3.5">
+                    <div class="bg-rose-600 text-white font-black text-xl tracking-tighter px-3.5 py-2 rounded-lg shadow-md flex items-center gap-1.5 shrink-0">
+                        <i data-lucide="beef" class="w-6 h-6"></i>
+                        <span>TÍA</span>
+                    </div>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Proyecto Integración Vertical de Carnes</h1>
-                        <p class="text-sm text-gray-500">Modelo Ganado en Pie - Panel Estratégico</p>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="text-xs font-bold uppercase tracking-widest bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded">
+                                Supply Chain & BI Estratégico
+                            </span>
+                            <span class="text-xs text-slate-400 font-medium">
+                                Dirigido a: Alta Gerencia & Daniel Mesta Cáceres (Gerente Compras Frescos)
+                            </span>
+                        </div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-white mt-0.5">
+                            Integración Vertical: Abastecimiento de Carne de Res en Pie vs. Introductor
+                        </h1>
                     </div>
                 </div>
-                <!-- Global View Toggle -->
-                <div class="flex items-center space-x-2 text-sm bg-gray-100 p-1 rounded-lg">
-                    <button class="px-3 py-1 rounded bg-white shadow-sm font-medium">$/kg</button>
-                    <button class="px-3 py-1 rounded text-gray-600 hover:bg-gray-200">$/Res</button>
+
+                <div class="flex flex-wrap items-center gap-2 bg-slate-800/90 p-1.5 rounded-xl border border-slate-700 self-start lg:self-auto">
+                    <span class="text-xs text-slate-400 px-2 font-medium flex items-center gap-1">
+                        <i data-lucide="scale" class="w-3.5 h-3.5 text-rose-400"></i> Vista Monetaria:
+                    </span>
+                    <button class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all bg-rose-600 text-white shadow-sm">$/kg</button>
                 </div>
             </div>
-            
-            <!-- Tabs -->
-            <nav class="flex space-x-8 mt-2">
-                <button class="tab-btn active pb-3 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" data-target="tab-1">1. Resumen Ejecutivo</button>
-                <button class="tab-btn pb-3 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" data-target="tab-2">2. Simulador "What-If"</button>
-                <button class="tab-btn pb-3 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" data-target="tab-3">3. Balance de Masa & CDN</button>
-                <button class="tab-btn pb-3 px-1 text-sm font-medium text-gray-500 hover:text-gray-700 transition-colors" data-target="tab-4">4. Logística & Subproductos</button>
+
+            <!-- Barra de Navegación -->
+            <nav class="flex space-x-1 mt-4 overflow-x-auto no-scrollbar border-t border-slate-800 pt-2">
+                <button class="tab-btn active flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-ejecutivo">
+                    <i data-lucide="bar-chart-3" class="tab-icon w-4 h-4"></i>
+                    <span>1. Resumen Ejecutivo & Caso de Negocio</span>
+                    <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">-12,24% Costo</span>
+                </button>
+                <button class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-simulador">
+                    <i data-lucide="sliders" class="tab-icon w-4 h-4"></i>
+                    <span>2. Simulador Estratégico "What-If"</span>
+                    <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">Interactivo</span>
+                </button>
+                <button class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-calidad">
+                    <i data-lucide="factory" class="tab-icon w-4 h-4"></i>
+                    <span>3. Balance de Masa & Desposte CDN</span>
+                    <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">250 kg / Res</span>
+                </button>
+                <button class="tab-btn flex items-center gap-2 px-4 py-2.5 rounded-t-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap border-b-2 text-slate-400 border-transparent hover:text-slate-200 hover:bg-slate-800/40" data-target="tab-logistica">
+                    <i data-lucide="truck" class="tab-icon w-4 h-4"></i>
+                    <span>4. Eficiencia Logística & Quinto Cuarto</span>
+                    <span class="tab-badge text-[10px] px-1.5 py-0.5 rounded-full font-bold bg-slate-800 text-slate-400">Lote 20 Reses</span>
+                </button>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
         
-        <!-- PESTAÑA 1: Resumen Ejecutivo -->
-        <div id="tab-1" class="tab-content active space-y-6">
-            
+        <!-- PESTAÑA 1: RESUMEN EJECUTIVO -->
+        <div id="tab-ejecutivo" class="tab-content active space-y-6">
+            <!-- Banner Síntesis -->
+            <div class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-2xl p-5 text-white shadow-md border border-slate-700 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="space-y-1 max-w-3xl">
+                    <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i> Tesis Central del Proyecto de Integración Vertical
+                    </div>
+                    <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+                        Al migrar de la compra a introductores (<strong>$5,1276/kg</strong>) hacia la compra directa de <strong>Ganado en Pie en Campo (1.000 lb a $1,18/lb)</strong>, absorbiendo el faenamiento ($21/res) y el flete optimizado ($24/res) mientras se monetiza el paquete visceral (<strong>-$100/res</strong>), Supermercados TÍA reduce su costo neto a <strong class="text-emerald-400 underline decoration-emerald-500/50">$4,5000/kg</strong>, capturando un ahorro estructural del <strong>12,24%</strong> y estandarizando la calidad en el CDN.
+                    </p>
+                </div>
+                <button onclick="document.querySelector('[data-target=tab-simulador]').click()" class="shrink-0 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 transition">
+                    <i data-lucide="sliders" class="w-4 h-4"></i> Abrir Simulador What-If <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+
             <!-- KPI Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Costo Final (Ganado en Pie)</h3>
-                    <div class="mt-2 flex items-baseline space-x-2">
-                        <span class="text-2xl font-bold text-gray-900">$4,500</span><span class="text-sm text-gray-500">/kg</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- KPI 1 -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 relative overflow-hidden">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Costo Meta (Ganado en Pie)</p>
+                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1 tabular-nums">$4,5000 <span class="text-sm font-semibold text-slate-500">/ kg</span></h3>
+                        </div>
+                        <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="trending-down" class="w-6 h-6"></i></div>
                     </div>
-                    <span class="inline-flex mt-2 items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">↓ 12,24% vs. Actual</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span class="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md">-12,24% vs. Actual</span>
+                        <span class="text-slate-500 font-medium tabular-nums">Actual: $5,1276/kg</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between tabular-nums">
+                        <span>Costo por Res (250 kg):</span><strong class="text-slate-800">$1.125,00 vs $1.281,90</strong>
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Ahorro Unitario Base</h3>
-                    <div class="mt-2 flex items-baseline space-x-2">
-                        <span class="text-2xl font-bold text-green-600">$0,627</span><span class="text-sm text-gray-500">/kg</span>
+                <!-- KPI 2 -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Ahorro Directo Unitario</p>
+                            <h3 class="text-2xl sm:text-3xl font-black text-emerald-600 mt-1 tabular-nums">$0,6276 <span class="text-sm font-semibold text-slate-500">/ kg</span></h3>
+                        </div>
+                        <div class="p-2.5 bg-rose-50 text-rose-600 rounded-xl"><i data-lucide="dollar-sign" class="w-6 h-6"></i></div>
                     </div>
-                    <span class="block mt-2 text-xs text-gray-500">Equivale a $156,90 / Res</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span class="font-bold text-slate-800 tabular-nums">$156,90 ahorro / res</span>
+                        <span class="text-emerald-600 font-semibold">+$100 vísceras incl.</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between tabular-nums">
+                        <span>Subsidio Vísceras en Canal:</span><strong class="text-emerald-700">-$0,4000 / kg (120 lb)</strong>
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Ahorro Logístico (Viaje Optim.)</h3>
-                    <div class="mt-2 flex items-baseline space-x-2">
-                        <span class="text-2xl font-bold text-gray-900">$3.138</span><span class="text-sm text-gray-500">/viaje</span>
+                <!-- KPI 3 -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-slate-500">Ahorro por Viaje Óptimo</p>
+                            <h3 class="text-2xl sm:text-3xl font-black text-slate-900 mt-1 tabular-nums">$3.138,00 <span class="text-sm font-semibold text-slate-500">/ lote</span></h3>
+                        </div>
+                        <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl"><i data-lucide="truck" class="w-6 h-6"></i></div>
                     </div>
-                    <span class="block mt-2 text-xs text-gray-500">Lote de 20 reses estandarizado</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span class="inline-flex items-center gap-1 font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md">Lote: 20 Reses (5.000 kg)</span>
+                        <span class="text-slate-500 tabular-nums">Flete: $480</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-slate-100 text-[11px] text-slate-500 flex justify-between tabular-nums">
+                        <span>Costo Logístico + Camal:</span><strong class="text-slate-800">$24 + $21 = $45 / res</strong>
+                    </div>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-sm font-medium text-gray-500">Ahorro Anual Proyectado</h3>
-                    <div class="mt-2 flex items-baseline space-x-2">
-                        <span class="text-2xl font-bold text-gray-900">$188.280</span><span class="text-sm text-gray-500">/año</span>
+                <!-- KPI 4 -->
+                <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white rounded-2xl p-5 shadow-md">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-emerald-100">Impacto Anual Proyectado</p>
+                            <h3 class="text-2xl sm:text-3xl font-black mt-1 tabular-nums">$188.280 <span class="text-sm font-normal text-emerald-100">/ año</span></h3>
+                        </div>
+                        <div class="p-2.5 bg-white/15 text-white rounded-xl"><i data-lucide="award" class="w-6 h-6"></i></div>
                     </div>
-                    <span class="block mt-2 text-xs text-gray-500">Asumiendo 100 reses/mes ($15.690/mes)</span>
+                    <div class="mt-3 flex items-center justify-between text-xs">
+                        <span class="font-bold bg-white/20 px-2 py-0.5 rounded text-white tabular-nums">$15.690 / mes</span>
+                        <span class="text-emerald-100 font-medium">Base: 100 reses/mes</span>
+                    </div>
+                    <div class="mt-2 pt-2 border-t border-white/20 text-[11px] text-emerald-100 flex justify-between tabular-nums">
+                        <span>Volumen Anual Carne Útil:</span><strong class="text-white">300.000 kg (1.200 reses)</strong>
+                    </div>
                 </div>
             </div>
 
             <!-- Charts Row 1 -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Waterfall Chart Placeholder -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 lg:col-span-2">
-                    <h3 class="text-base font-semibold mb-4">Deconstrucción del Costo: Del Introductor al Ganado en Pie</h3>
-                    <div class="relative h-72 w-full">
-                        <canvas id="waterfallChart"></canvas>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Waterfall Chart -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Storytelling Financiero • Puente de Valor</span>
+                                <h2 class="text-base sm:text-lg font-bold text-slate-900">Deconstrucción del Costo: Del Introductor al Ganado en Pie ($/kg)</h2>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-3 mb-2">Evidencia cómo la compra directa en campo y el subsidio visceral de <strong>$100/res</strong> compensan ampliamente la absorción de costos de camal y transporte logístico.</p>
+                        <div class="h-80 w-full mt-2 relative"><canvas id="waterfallChart"></canvas></div>
                     </div>
                 </div>
                 
                 <!-- Escenarios Comparativa -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                    <h3 class="text-base font-semibold mb-4">Estructura de Costos por Escenario ($/kg)</h3>
-                    <div class="relative h-72 w-full">
-                        <canvas id="escenariosChart"></canvas>
+                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600">Evaluación de Alternativas</span>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Comparativa de Escenarios (A vs. B vs. C)</h2>
+                        <p class="text-xs text-slate-500 mt-1 mb-3">Desglose por componente de costo ($/kg). El Escenario C triplica el ahorro del Escenario B gracias a la captura de vísceras y compra en pie.</p>
+                        <div class="h-64 w-full relative"><canvas id="escenariosChart"></canvas></div>
                     </div>
-                    <p class="text-xs text-gray-400 mt-2 text-center">*Nota: Ahorro neto A vs B ponderado es $0,2236/kg.</p>
+                    <div class="mt-4 bg-amber-50 border border-amber-200/80 rounded-xl p-3.5 text-xs text-amber-900 space-y-1">
+                        <div class="flex items-center gap-1.5 font-bold text-amber-800">
+                            <i data-lucide="info" class="w-4 h-4 shrink-0 text-amber-600"></i>
+                            <span>Nota de Precisión Analítica (Data Governance):</span>
+                        </div>
+                        <p class="leading-relaxed text-[11px]">En el <strong>Escenario B (Canal en Campo)</strong>, el costo total es <strong>$4,9040/kg</strong> ($1.226,00/res). Contrastado con el promedio ponderado del Introductor (<strong>$5,1276/kg</strong>), el ahorro matemático exacto es <strong>$0,2236/kg ($55,90/res)</strong> (en minuta preliminar se citó $0,2276/kg). El <strong>Escenario C ($4,5000/kg)</strong> entrega <strong>$0,6276/kg ($156,90/res)</strong>, siendo <strong>2,8 veces más rentable</strong> que el Escenario B.</p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Roadmap -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-base font-semibold">Captura de Ahorro Acumulado (Roadmap 9 Meses)</h3>
-                    <div class="flex space-x-2 text-xs">
-                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded">Piloto (M1-M3)</span>
-                        <span class="px-2 py-1 bg-purple-100 text-purple-800 rounded">Escala (M4-M6)</span>
-                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded">Consolidación (M7-M9)</span>
+            <!-- Matriz Financiera -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 flex items-center gap-2"><i data-lucide="file-spreadsheet" class="w-5 h-5 text-rose-600"></i> Matriz Financiera Estructural: Comparativa Detallada</h2>
+                        <p class="text-xs text-slate-500">Base estandarizada: Res de 1.000 lb en pie → 55% rendimiento = 550 lb / 250 kg carne útil.</p>
                     </div>
                 </div>
-                <div class="relative h-64 w-full">
-                    <canvas id="roadmapChart"></canvas>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-900 text-white uppercase text-[11px] tracking-wider">
+                                <th class="py-3.5 px-4 font-bold">Rubro / Componente de Costo</th>
+                                <th class="py-3.5 px-4 font-bold text-right">Escenario A: Introductor (Actual)</th>
+                                <th class="py-3.5 px-4 font-bold text-right">Escenario B: Canal en Campo</th>
+                                <th class="py-3.5 px-4 font-bold text-right bg-emerald-900/60 border-l border-emerald-700">Escenario C: Ganado en Pie (Óptimo)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200 tabular-nums">
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-medium text-slate-800">Costo Pierna (170 kg / 68% canal)</td>
+                                <td class="py-3 px-4 text-right text-slate-600">$5,3100/kg ($902,70)</td>
+                                <td class="py-3 px-4 text-right text-slate-600">$4,9000/kg ($833,00)</td>
+                                <td class="py-3 px-4 text-right font-semibold text-emerald-900 bg-emerald-50/40 border-l border-emerald-100">Integrado en Compra en Pie ($1.180,00)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-medium text-slate-800">Costo Brazo (80 kg / 32% canal)</td>
+                                <td class="py-3 px-4 text-right text-slate-600">$4,7400/kg ($379,20)</td>
+                                <td class="py-3 px-4 text-right text-slate-600">$4,3500/kg ($348,00)</td>
+                                <td class="py-3 px-4 text-right font-semibold text-emerald-900 bg-emerald-50/40 border-l border-emerald-100">1.000 lb × $1,18/lb vivo</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-medium text-emerald-700">Recuperación Paquete Visceral (120 lb)</td>
+                                <td class="py-3 px-4 text-right text-slate-400">$0,00 (Capturado por tercero)</td>
+                                <td class="py-3 px-4 text-right text-slate-400">$0,00 (Capturado por tercero)</td>
+                                <td class="py-3 px-4 text-right font-bold text-emerald-600 bg-emerald-50/40 border-l border-emerald-100">-$0,4000/kg (-$100,00 / res)</td>
+                            </tr>
+                            <tr class="bg-slate-50/80 font-semibold">
+                                <td class="py-3 px-4 text-slate-900">Costo Base Neto de Carne (250 kg)</td>
+                                <td class="py-3 px-4 text-right text-slate-800">$5,1276/kg ($1.281,90)</td>
+                                <td class="py-3 px-4 text-right text-slate-800">$4,7240/kg ($1.181,00)</td>
+                                <td class="py-3 px-4 text-right text-emerald-800 bg-emerald-100/50 border-l border-emerald-200">$4,3200/kg ($1.080,00)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-medium text-slate-700">Gastos de Camal Absorbidos ($21/res)</td>
+                                <td class="py-3 px-4 text-right text-slate-400">Incluido en precio</td>
+                                <td class="py-3 px-4 text-right text-rose-600">+$0,0840/kg (+$21,00)</td>
+                                <td class="py-3 px-4 text-right text-rose-600 bg-emerald-50/40 border-l border-emerald-100">+$0,0840/kg (+$21,00)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="py-3 px-4 font-medium text-slate-700">Logística y Flete Absorbidos ($480/20)</td>
+                                <td class="py-3 px-4 text-right text-slate-400">Incluido en precio</td>
+                                <td class="py-3 px-4 text-right text-rose-600">+$0,0960/kg (+$24,00)</td>
+                                <td class="py-3 px-4 text-right text-rose-600 bg-emerald-50/40 border-l border-emerald-100">+$0,0960/kg (+$24,00)</td>
+                            </tr>
+                            <tr class="bg-slate-900 text-white font-bold text-sm">
+                                <td class="py-4 px-4">COSTO TOTAL FINAL PUESTO EN CDN</td>
+                                <td class="py-4 px-4 text-right">$5,1276/kg ($1.281,90)</td>
+                                <td class="py-4 px-4 text-right">$4,9040/kg ($1.226,00)</td>
+                                <td class="py-4 px-4 text-right text-emerald-400 bg-emerald-950 border-l border-emerald-700 text-base">$4,5000/kg ($1.125,00)</td>
+                            </tr>
+                            <tr class="bg-emerald-50 font-bold text-emerald-900">
+                                <td class="py-3.5 px-4">AHORRO NETO VS. ESQUEMA ACTUAL</td>
+                                <td class="py-3.5 px-4 text-right text-slate-400">Línea Base (0%)</td>
+                                <td class="py-3.5 px-4 text-right text-emerald-700">$0,2236/kg ($55,90/res | -4,36%)</td>
+                                <td class="py-3.5 px-4 text-right text-emerald-700 bg-emerald-100 border-l border-emerald-300">$0,6276/kg ($156,90/res | -12,24%)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 pb-8">
+                <!-- Proyección Roadmap -->
+                <div class="lg:col-span-12 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600">Proyección Financiera Ramp-Up</span>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Curva de Captura de Ahorro Acumulado (Año 1)</h2>
+                        <div class="h-60 w-full mt-4"><canvas id="roadmapChart"></canvas></div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- PESTAÑA 2: Simulador What-If -->
-        <div id="tab-2" class="tab-content">
+        <!-- PESTAÑA 2: SIMULADOR WHAT-IF -->
+        <div id="tab-simulador" class="tab-content space-y-6 pb-8">
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-rose-100 text-rose-700 rounded-lg"><i data-lucide="sliders" class="w-5 h-5"></i></div>
+                    <div>
+                        <h2 class="text-sm sm:text-base font-bold text-slate-900">Simulador de Estrés y Sensibilidad Financiera en Tiempo Real</h2>
+                        <p class="text-xs text-slate-500">Mueva las palancas operativas o seleccione un escenario preconfigurado para evaluar la resiliencia del modelo.</p>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="applyPreset('base')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-900 text-white hover:bg-slate-800 transition"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5 inline mr-1"></i> Caso Base</button>
+                    <button onclick="applyPreset('tormenta')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300 transition">Tormenta Perfecta</button>
+                    <button onclick="applyPreset('optimo')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-100 text-emerald-900 hover:bg-emerald-200 border border-emerald-300 transition">Eficiencia Óptima</button>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                
-                <!-- Panel de Controles -->
-                <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100 lg:col-span-4">
-                    <h3 class="text-lg font-semibold border-b pb-2 mb-4">Parámetros Operativos</h3>
+                <!-- Controles -->
+                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 space-y-5">
+                    <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-800">Variables Operativas de Entrada</h3>
+                        <span class="text-[11px] text-rose-600 font-semibold">Ajuste Dinámico</span>
+                    </div>
+
+                    <!-- Sliders -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">1. Precio Vivo en Campo ($/lb):</label><span id="val-price" class="font-black text-rose-600 text-sm">$1.18</span></div>
+                        <input type="range" id="sl-price" min="1.05" max="1.35" step="0.01" value="1.18" class="text-rose-600">
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">2. Rendimiento Canal (%):</label><span id="val-yield" class="font-black text-emerald-600 text-sm">55.0%</span></div>
+                        <input type="range" id="sl-yield" min="50.0" max="60.0" step="0.5" value="55.0" class="text-emerald-600">
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">3. Monetización Subproductos ($):</label><span id="val-sub" class="font-black text-emerald-700 text-sm">-$100</span></div>
+                        <input type="range" id="sl-sub" min="50" max="160" step="5" value="100" class="text-emerald-600">
+                    </div>
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">4. Ocupación Camión (Reses):</label><span id="val-truck" class="font-black text-blue-600 text-sm">20 reses</span></div>
+                        <input type="range" id="sl-truck" min="8" max="24" step="1" value="20" class="text-blue-600">
+                    </div>
+                    <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                        <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">Volumen Mensual (Reses):</label><span id="val-vol" class="font-black text-slate-900 text-sm">100 reses/mes</span></div>
+                        <input type="range" id="sl-vol" min="20" max="500" step="10" value="100" class="text-rose-600">
+                    </div>
+                </div>
+
+                <!-- Resultados -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div id="card-cost" class="rounded-2xl p-4 border shadow-sm bg-emerald-950 text-white border-emerald-700">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-300">Costo Final Simulado</span>
+                            <div class="text-2xl sm:text-3xl font-black mt-1 tabular-nums text-emerald-400" id="out-cost">$4.5000 <span class="text-xs font-normal">/kg</span></div>
+                            <div class="mt-2 text-xs text-slate-300 flex justify-between"><span>Por Res:</span><strong class="text-white" id="out-res">$1,125.00</strong></div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Ahorro vs. Introductor</span>
+                            <div class="text-2xl sm:text-3xl font-black mt-1 tabular-nums text-emerald-600" id="out-sav-kg">+$0.6276 <span class="text-xs font-normal text-slate-500">/kg</span></div>
+                            <div class="mt-2 text-xs text-slate-600 flex justify-between"><span>Reducción:</span><strong class="text-emerald-700" id="out-sav-pct">12.24%</strong></div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Ahorro Anual Simulado</span>
+                            <div class="text-2xl sm:text-3xl font-black mt-1 tabular-nums text-slate-900" id="out-annual">$188,280</div>
+                            <div class="mt-2 text-xs text-slate-600 flex justify-between"><span>Mensual:</span><strong class="text-emerald-700" id="out-monthly">$15,690/mes</strong></div>
+                        </div>
+                    </div>
+
+                    <!-- Heatmap -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-3">Matriz de Sensibilidad: Precio en Pie vs. Rendimiento</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-center border-collapse text-xs tabular-nums" id="heatmap-table">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 font-bold" id="heatmap-head"></tr>
+                                </thead>
+                                <tbody id="heatmap-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
                     
-                    <div class="space-y-5">
-                        <!-- Param 1 -->
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <label class="text-sm font-medium text-gray-700">Rendimiento Canal (%)</label>
-                                <span id="val-rend" class="text-sm font-bold text-red-600">55.0%</span>
-                            </div>
-                            <input type="range" id="slider-rend" min="50" max="60" step="0.5" value="55.0">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1"><span>50%</span><span>60%</span></div>
-                        </div>
-                        
-                        <!-- Param 2 -->
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <label class="text-sm font-medium text-gray-700">Precio Vivo en Campo ($/lb)</label>
-                                <span id="val-precio" class="text-sm font-bold text-red-600">$1.18</span>
-                            </div>
-                            <input type="range" id="slider-precio" min="1.05" max="1.35" step="0.01" value="1.18">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1"><span>$1.05</span><span>$1.35</span></div>
-                        </div>
+                    <!-- Tornado -->
+                    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                        <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-3">Tornado: Impacto por Variable ($/kg)</h3>
+                        <div class="h-52 w-full"><canvas id="tornadoChart"></canvas></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Param 3 -->
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <label class="text-sm font-medium text-gray-700">Ocupación Camión (Reses)</label>
-                                <span id="val-ocup" class="text-sm font-bold text-red-600">20 reses</span>
-                            </div>
-                            <input type="range" id="slider-ocup" min="10" max="24" step="2" value="20">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1"><span>10</span><span>24 (Lleno)</span></div>
-                        </div>
+        <!-- PESTAÑA 3: BALANCE DE MASA & CDN -->
+        <div id="tab-calidad" class="tab-content space-y-6 pb-8">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-rose-600">Ingeniería de Procesos Cárnicos • Balance de Masa</span>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900">Anatomía de Conversión del Animal Estándar (1.000 lb)</h2>
+                    </div>
+                    <span class="text-xs font-bold bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full">Factor Conversión: 55% Canal = 250 kg Carne Útil</span>
+                </div>
+                
+                <div class="mt-5 space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-slate-700">
+                        <span>Distribución Física de 1.000 lb (100% Peso Vivo)</span>
+                        <span>55% Canal Comercial (550 lb) | 45% Quinto Cuarto y Mermas (450 lb)</span>
+                    </div>
+                    <div class="h-11 w-full rounded-xl overflow-hidden flex shadow-inner border border-slate-300 text-[11px] font-bold text-white text-center">
+                        <div style="width: 37.4%" class="bg-rose-700 flex items-center justify-center truncate">Pierna: 170kg (37.4%)</div>
+                        <div style="width: 17.6%" class="bg-rose-500 flex items-center justify-center truncate border-l border-white/20">Brazo: 80kg</div>
+                        <div style="width: 12%" class="bg-emerald-600 flex items-center justify-center truncate border-l border-white/20">Vísceras 12%</div>
+                        <div style="width: 8%" class="bg-amber-600 flex items-center justify-center truncate border-l border-white/20">Cuero 8%</div>
+                        <div style="width: 7%" class="bg-amber-500 flex items-center justify-center truncate border-l border-white/20">Cab/Pat 7%</div>
+                        <div style="width: 18%" class="bg-slate-500 flex items-center justify-center truncate border-l border-white/20">Mermas 18%</div>
+                    </div>
+                </div>
 
-                        <!-- Param 4 -->
-                        <div>
-                            <div class="flex justify-between mb-1">
-                                <label class="text-sm font-medium text-gray-700">Monetización Subproductos ($/res)</label>
-                                <span id="val-sub" class="text-sm font-bold text-red-600">$100</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+                    <!-- Canal -->
+                    <div class="bg-rose-50/50 rounded-xl p-4 border border-rose-200/80 space-y-3">
+                        <h3 class="text-sm font-black text-rose-950 uppercase"><i data-lucide="beef" class="inline w-4 h-4 text-rose-600 mr-1"></i>1. Canal Comercial Útil (55%)</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-white p-3 rounded-lg border border-rose-100 shadow-sm">
+                                <span class="text-[11px] font-bold text-slate-500 uppercase">Pierna</span>
+                                <div class="text-xl font-black text-slate-900 mt-0.5">170 kg</div>
+                                <div class="text-[11px] text-rose-700 font-semibold mt-1">68.0% de la canal</div>
                             </div>
-                            <input type="range" id="slider-sub" min="50" max="160" step="5" value="100">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1"><span>$50</span><span>$160</span></div>
+                            <div class="bg-white p-3 rounded-lg border border-rose-100 shadow-sm">
+                                <span class="text-[11px] font-bold text-slate-500 uppercase">Brazo</span>
+                                <div class="text-xl font-black text-slate-900 mt-0.5">80 kg</div>
+                                <div class="text-[11px] text-rose-700 font-semibold mt-1">32.0% de la canal</div>
+                            </div>
                         </div>
-                        
-                        <div class="pt-4 border-t border-gray-100 flex justify-between">
-                            <button class="text-sm text-gray-500 hover:text-gray-800 underline" onclick="resetSim()">Restablecer Base</button>
-                            <button class="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded hover:bg-red-200" onclick="applyStress()">Stress Test</button>
+                    </div>
+                    <!-- Subproductos -->
+                    <div class="bg-slate-100/80 rounded-xl p-4 border border-slate-200 space-y-3">
+                        <h3 class="text-sm font-black text-slate-900 uppercase"><i data-lucide="layers" class="inline w-4 h-4 text-emerald-600 mr-1"></i>2. Subproductos y Mermas (45%)</h3>
+                        <div class="grid grid-cols-3 gap-2.5 pt-1 text-xs">
+                            <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg"><span class="font-bold text-emerald-900 block">Vísceras</span><strong class="text-base font-black text-emerald-700">120 lb</strong><span class="block text-[10px] text-emerald-800 font-semibold mt-0.5">$100</span></div>
+                            <div class="bg-white border border-slate-200 p-2.5 rounded-lg"><span class="font-bold text-slate-700 block">Cuero</span><strong class="text-base font-black text-slate-900">80 lb</strong><span class="block text-[10px] text-amber-700 font-semibold mt-0.5">Upside</span></div>
+                            <div class="bg-slate-200/70 border border-slate-300 p-2.5 rounded-lg"><span class="font-bold text-slate-700 block">Mermas</span><strong class="text-base font-black text-slate-800">180 lb</strong><span class="block text-[10px] text-slate-600">18%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Dispersión Boxplot CSS -->
+                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <h3 class="text-base font-bold text-slate-900 mb-3">Dispersión de Pesos: Introductor vs Campo</h3>
+                    <div class="space-y-4 pt-3">
+                        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                            <div class="flex justify-between text-xs font-bold"><span class="text-rose-700">A. Introductor</span><span>Rango: 205 - 295 kg</span></div>
+                            <div class="relative h-8 bg-slate-200 rounded-lg flex items-center px-2">
+                                <div class="w-full h-0.5 bg-rose-400 flex justify-center"><div class="w-3/5 h-5 bg-rose-500/30 border-2 border-rose-600 rounded flex justify-center"><div class="w-0.5 h-full bg-rose-900"></div></div></div>
+                            </div>
+                        </div>
+                        <div class="p-3.5 bg-emerald-50/50 rounded-xl border border-emerald-200 space-y-2">
+                            <div class="flex justify-between text-xs font-bold"><span class="text-emerald-800">C. Ganado TÍA</span><span>Meta: 245 - 255 kg</span></div>
+                            <div class="relative h-8 bg-slate-200 rounded-lg flex items-center px-2 justify-center">
+                                <div class="w-2/5 h-0.5 bg-emerald-600 flex justify-center"><div class="w-2/5 h-5 bg-emerald-500/40 border-2 border-emerald-700 rounded flex justify-center"><div class="w-0.5 h-full bg-emerald-950"></div></div></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Panel de Resultados Dinámicos -->
-                <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-base font-semibold mb-4">Resultado de la Simulación vs Caso Base</h3>
-                        
-                        <div class="grid grid-cols-2 gap-8 mb-6">
-                            <!-- Base -->
-                            <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 opacity-70">
-                                <h4 class="text-xs font-semibold text-gray-500 uppercase">Caso Base (Objetivo TÍA)</h4>
-                                <div class="mt-3 flex justify-between items-end border-b border-gray-200 pb-2">
-                                    <span class="text-sm text-gray-600">Costo Final / kg:</span>
-                                    <span class="text-xl font-bold">$4,500</span>
-                                </div>
-                                <div class="mt-2 flex justify-between items-end border-b border-gray-200 pb-2">
-                                    <span class="text-sm text-gray-600">Ahorro / Res:</span>
-                                    <span class="text-base font-medium text-green-600">$156,90</span>
-                                </div>
+                <!-- Simulador CDN -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <h3 class="text-base font-bold text-slate-900 mb-4">Simulador de Desposte: Mix Cortes Nobles vs Molienda</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                            <div>
+                                <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">% Molienda (Intro):</label><span id="out-mol-intro" class="font-bold text-rose-600">22%</span></div>
+                                <input type="range" id="sl-mol-intro" min="15" max="30" value="22" class="w-full text-rose-600">
                             </div>
-                            
-                            <!-- Simulado -->
-                            <div class="bg-red-50 p-4 rounded-lg border border-red-200 shadow-inner relative overflow-hidden">
-                                <div class="absolute top-0 right-0 w-16 h-16 bg-red-100 rounded-bl-full -mr-8 -mt-8 z-0"></div>
-                                <h4 class="text-xs font-bold text-red-800 uppercase relative z-10">Escenario Simulado</h4>
-                                <div class="mt-3 flex justify-between items-end border-b border-red-200 pb-2 relative z-10">
-                                    <span class="text-sm font-medium text-gray-700">Nuevo Costo / kg:</span>
-                                    <span id="sim-costo" class="text-2xl font-bold text-gray-900">$4,500</span>
-                                </div>
-                                <div class="mt-2 flex justify-between items-end border-b border-red-200 pb-2 relative z-10">
-                                    <span class="text-sm font-medium text-gray-700">Nuevo Ahorro / Res:</span>
-                                    <span id="sim-ahorro" class="text-lg font-bold text-green-700">$156,90</span>
-                                </div>
+                            <div>
+                                <div class="flex justify-between text-xs"><label class="font-bold text-slate-700">% Meta Molienda (TÍA):</label><span id="out-mol-tia" class="font-bold text-emerald-600">12%</span></div>
+                                <input type="range" id="sl-mol-tia" min="8" max="20" value="12" class="w-full text-emerald-600">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 pt-1">
+                                <div><label class="text-[11px] font-bold text-slate-600 block">PVP Noble ($/kg)</label><input type="number" id="in-pvp-noble" value="8.90" step="0.1" class="w-full px-2 py-1 text-xs border rounded"></div>
+                                <div><label class="text-[11px] font-bold text-slate-600 block">PVP Mol. ($/kg)</label><input type="number" id="in-pvp-mol" value="5.40" step="0.1" class="w-full px-2 py-1 text-xs border rounded"></div>
                             </div>
                         </div>
-
-                        <!-- Tornado Chart Placeholder -->
-                        <div class="mt-4">
-                            <h4 class="text-sm font-medium text-gray-700 mb-2">Impacto en Costo Final ($/kg) por desviación unitaria (Sensibilidad)</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-center text-xs">
-                                    <div class="w-32 truncate">Rendimiento (±1%)</div>
-                                    <div class="flex-1 flex items-center justify-center">
-                                        <div class="w-1/2 flex justify-end pr-1"><div class="bg-green-400 h-4 rounded-l" style="width: 45%"></div></div>
-                                        <div class="w-px h-6 bg-gray-400"></div>
-                                        <div class="w-1/2 flex justify-start pl-1"><div class="bg-red-400 h-4 rounded-r" style="width: 55%"></div></div>
-                                    </div>
-                                    <div class="w-16 text-right font-medium text-gray-500">Alto</div>
-                                </div>
-                                <div class="flex items-center text-xs">
-                                    <div class="w-32 truncate">Precio Vivo (±$0.05)</div>
-                                    <div class="flex-1 flex items-center justify-center">
-                                        <div class="w-1/2 flex justify-end pr-1"><div class="bg-green-400 h-4 rounded-l" style="width: 38%"></div></div>
-                                        <div class="w-px h-6 bg-gray-400"></div>
-                                        <div class="w-1/2 flex justify-start pl-1"><div class="bg-red-400 h-4 rounded-r" style="width: 40%"></div></div>
-                                    </div>
-                                    <div class="w-16 text-right font-medium text-gray-500">Alto</div>
-                                </div>
-                                <div class="flex items-center text-xs">
-                                    <div class="w-32 truncate">Subproductos (±$10)</div>
-                                    <div class="flex-1 flex items-center justify-center">
-                                        <div class="w-1/2 flex justify-end pr-1"><div class="bg-green-400 h-4 rounded-l" style="width: 15%"></div></div>
-                                        <div class="w-px h-6 bg-gray-400"></div>
-                                        <div class="w-1/2 flex justify-start pl-1"><div class="bg-red-400 h-4 rounded-r" style="width: 15%"></div></div>
-                                    </div>
-                                    <div class="w-16 text-right font-medium text-gray-500">Medio</div>
-                                </div>
+                        <div class="bg-slate-900 text-white p-4 rounded-xl flex flex-col justify-between">
+                            <div class="space-y-1.5 text-xs">
+                                <span class="text-[10px] font-bold uppercase text-emerald-400">Efecto Combinado</span>
+                                <div class="flex justify-between"><span class="text-slate-400">Cortes Nobles:</span><strong id="out-noble-comp" class="text-white">64% → 74%</strong></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Ahorro Compra:</span><strong class="text-emerald-400">+$0.6276/kg</strong></div>
+                                <div class="flex justify-between"><span class="text-slate-400">Plusvalía Desposte:</span><strong id="out-plusvalia" class="text-amber-400">+$0.3500/kg</strong></div>
+                            </div>
+                            <div class="pt-3 border-t border-slate-700 mt-3">
+                                <div class="flex justify-between items-baseline"><span class="text-xs font-bold text-slate-300">Beneficio Total:</span><span id="out-ben-total" class="text-xl font-black text-emerald-400">$0.9776/kg</span></div>
+                                <p class="text-[11px] text-slate-400 mt-1">Aporta <strong id="out-extra-mes" class="text-white">$8,750</strong> extras al mes en góndola.</p>
                             </div>
                         </div>
                     </div>
@@ -270,197 +497,234 @@
             </div>
         </div>
 
-        <!-- PESTAÑA 3 & 4 (Placeholders visuales rápidos para demostración estructural) -->
-        <div id="tab-3" class="tab-content text-center py-20 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl">
-            <svg class="mx-auto h-12 w-12 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" /></svg>
-            <p>Sección "Balance de Masa y Desposte CDN" (Requiere D3.js para Diagrama de Sankey)</p>
-        </div>
-        <div id="tab-4" class="tab-content text-center py-20 text-gray-400 border-2 border-dashed border-gray-200 rounded-xl">
-            <svg class="mx-auto h-12 w-12 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>
-            <p>Sección "Eficiencia Logística y Subproductos" (Curva Asintótica de Fletes)</p>
+        <!-- PESTAÑA 4: LOGÍSTICA & SUBPRODUCTOS -->
+        <div id="tab-logistica" class="tab-content space-y-6 pb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Gráfico Logística -->
+                <div class="lg:col-span-7 bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-4">Curva de Eficiencia Logística ($480 / Viaje)</h2>
+                    <div class="h-64 w-full"><canvas id="logisticsChart"></canvas></div>
+                    <div class="grid grid-cols-3 gap-3 pt-4 text-xs">
+                        <div class="bg-slate-50 p-2.5 rounded-lg border"><span class="text-slate-500">1. Flete (83.3%)</span><br><strong>$400.00</strong></div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border"><span class="text-slate-500">2. Estiba (12.5%)</span><br><strong>$60.00</strong></div>
+                        <div class="bg-slate-50 p-2.5 rounded-lg border"><span class="text-slate-500">3. Desinf. (4.2%)</span><br><strong>$20.00</strong></div>
+                    </div>
+                </div>
+
+                <!-- Explorador Quinto Cuarto -->
+                <div class="lg:col-span-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-2">Monetización del "Quinto Cuarto"</h2>
+                        <p class="text-xs text-slate-500 mb-4">Active la comercialización mayorista de subproductos adicionales.</p>
+                        <div class="space-y-2.5">
+                            <div class="flex justify-between items-center p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs">
+                                <div><strong class="text-emerald-950 block">Vísceras (120 lb)</strong><span class="text-[11px] text-emerald-700">Base</span></div>
+                                <strong class="text-sm font-black text-emerald-800">+$100.00</strong>
+                            </div>
+                            <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="chk-cuero" checked class="w-4 h-4"><strong>Cuero (80 lb)</strong></label>
+                                <div class="flex items-center gap-1">+$<input type="number" id="val-cuero" value="18" class="w-14 text-right border rounded"></div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="chk-cabeza" checked class="w-4 h-4"><strong>Cabeza (40 lb)</strong></label>
+                                <div class="flex items-center gap-1">+$<input type="number" id="val-cabeza" value="9" class="w-14 text-right border rounded"></div>
+                            </div>
+                            <div class="flex justify-between items-center p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                                <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" id="chk-patas" class="w-4 h-4"><strong>Patas (30 lb)</strong></label>
+                                <div class="flex items-center gap-1">+$<input type="number" id="val-patas" value="5" class="w-14 text-right border rounded"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-900 text-white p-4 rounded-xl space-y-2 mt-4">
+                        <div class="flex justify-between text-xs"><span class="text-slate-400">Recuperación Total:</span><strong id="out-q5-rec" class="text-emerald-400">$127.00 / res</strong></div>
+                        <div class="flex justify-between items-baseline pt-2 border-t border-slate-800"><span class="text-xs font-bold text-slate-200">Nuevo Costo Pie:</span><span id="out-q5-cost" class="text-2xl font-black text-emerald-400">$4.3920 /kg</span></div>
+                        <div class="flex justify-between text-[11px] text-slate-300"><span>Ahorro Anual:</span><strong id="out-q5-ann" class="text-white">$220,680 / año</strong></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </main>
 
-    <!-- Script de Inicialización de Gráficos e Interacciones -->
     <script>
-        // --- Pestañas ---
+        // Init Icons
+        lucide.createIcons();
+
+        // Tabs Logic
         const tabs = document.querySelectorAll('.tab-btn');
         const contents = document.querySelectorAll('.tab-content');
-        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active', 'border-bottom', 'border-red-500', 'text-red-500'));
+                tabs.forEach(t => t.classList.remove('active', 'border-rose-500'));
                 contents.forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                tab.style.borderBottom = '2px solid #ef4444';
-                tab.style.color = '#ef4444';
+                tab.classList.add('active', 'border-rose-500');
                 document.getElementById(tab.dataset.target).classList.add('active');
             });
         });
+
+        // Setup Charts
+        const fmtCur = (v) => '$' + v.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:4});
         
-        // --- Registro de Plugin Chart.js ---
-        Chart.register(ChartDataLabels);
-        
-        // --- Gráfico de Cascada (Waterfall - Simulado con Bar Chart flotante) ---
-        const ctxWaterfall = document.getElementById('waterfallChart').getContext('2d');
-        // Para simular cascada en Chart.js basico usamos datos flotantes [min, max]
-        const dataWaterfall = {
-            labels: ['Intro (A)', 'Margen Interm.', 'Vísceras', 'Camal', 'Flete', 'Pie (C)'],
-            datasets: [{
-                label: 'Costo',
-                data: [
-                    [0, 5.1276],            // Base
-                    [4.7200, 5.1276],       // Baja -0.4076 (Ahorro Margen)
-                    [4.3200, 4.7200],       // Baja -0.4000 (Vísceras)
-                    [4.3200, 4.4040],       // Sube +0.0840 (Camal)
-                    [4.4040, 4.5000],       // Sube +0.0960 (Flete)
-                    [0, 4.5000]             // Total Final
-                ],
-                backgroundColor: [
-                    '#4b5563', // Base Gris oscuro
-                    '#22c55e', // Verde ahorro
-                    '#22c55e', // Verde ahorro
-                    '#ef4444', // Rojo costo
-                    '#ef4444', // Rojo costo
-                    '#1d4ed8'  // Total Azul Tía
-                ],
-                borderRadius: 2
-            }]
-        };
-        new Chart(ctxWaterfall, {
+        // 1. Waterfall
+        const ctxW = document.getElementById('waterfallChart');
+        new Chart(ctxW, {
             type: 'bar',
-            data: dataWaterfall,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    datalabels: {
-                        formatter: (val, ctx) => {
-                            if(ctx.dataIndex === 0 || ctx.dataIndex === 5) return '$'+val[1].toFixed(2);
-                            let dif = val[1] - val[0];
-                            return (ctx.dataIndex === 1 || ctx.dataIndex === 2 ? '-' : '+') + '$' + Math.abs(dif).toFixed(2);
-                        },
-                        anchor: 'end', align: 'top', font: { weight: 'bold', size: 10 }
-                    }
-                },
-                scales: {
-                    y: { min: 3.5, max: 5.5, ticks: { callback: function(val) { return '$' + val; } } }
-                }
-            }
+            data: {
+                labels: ['Intro (A)', 'Margen', 'Vísceras', 'Camal', 'Flete', 'Pie (C)'],
+                datasets: [{
+                    data: [[0, 5.1276], [4.7200, 5.1276], [4.3200, 4.7200], [4.3200, 4.4040], [4.4040, 4.5000], [0, 4.5000]],
+                    backgroundColor: ['#64748b', '#10b981', '#10b981', '#f43f5e', '#f43f5e', '#0f172a']
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: {display:false} } }
         });
 
-        // --- Gráfico de Escenarios (Barras Apiladas) ---
-        const ctxEscenarios = document.getElementById('escenariosChart').getContext('2d');
-        new Chart(ctxEscenarios, {
+        // 2. Escenarios
+        const ctxE = document.getElementById('escenariosChart');
+        new Chart(ctxE, {
             type: 'bar',
             data: {
                 labels: ['Esc. A (Intro)', 'Esc. B (Canal)', 'Esc. C (Pie)'],
                 datasets: [
-                    { label: 'Costo Base Carne', data: [5.1276, 4.7240, 4.3200], backgroundColor: '#4b5563' },
-                    { label: 'Costo Camal', data: [0, 0.0840, 0.0840], backgroundColor: '#f59e0b' },
-                    { label: 'Costo Flete', data: [0, 0.0960, 0.0960], backgroundColor: '#3b82f6' }
+                    { label: 'Costo Base', data: [5.1276, 4.7240, 4.3200], backgroundColor: '#334155' },
+                    { label: 'Camal', data: [0, 0.0840, 0.0840], backgroundColor: '#f59e0b' },
+                    { label: 'Logística', data: [0, 0.0960, 0.0960], backgroundColor: '#e11d48' }
                 ]
             },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                scales: { x: { stacked: true }, y: { stacked: true, ticks: { callback: v => '$'+v } } },
-                plugins: {
-                    datalabels: { display: false },
-                    tooltip: { mode: 'index', intersect: false }
-                }
-            }
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: {stacked: true}, y: {stacked: true} } }
         });
 
-        // --- Gráfico Roadmap ---
-        const ctxRoadmap = document.getElementById('roadmapChart').getContext('2d');
-        new Chart(ctxRoadmap, {
+        // 3. Roadmap
+        const ctxR = document.getElementById('roadmapChart');
+        new Chart(ctxR, {
             type: 'line',
             data: {
-                labels: ['M1','M2','M3','M4','M5','M6','M7','M8','M9'],
+                labels: ['M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12'],
                 datasets: [{
                     label: 'Ahorro Acumulado ($)',
-                    data: [3138, 6276, 12552, 21966, 31380, 43932, 59622, 75312, 91002],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    fill: true,
-                    tension: 0.4
+                    data: [3138, 9414, 18828, 31380, 45501, 61191, 76881, 92571, 108261, 123951, 139641, 155331],
+                    borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.2)', fill: true, tension: 0.4
                 }]
             },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: { datalabels: { display: false } },
-                scales: { y: { ticks: { callback: v => '$'+(v/1000)+'k' } } }
-            }
+            options: { responsive: true, maintainAspectRatio: false }
         });
 
-        // --- Lógica del Simulador What-If ---
-        const sRend = document.getElementById('slider-rend');
-        const sPre = document.getElementById('slider-precio');
-        const sOcu = document.getElementById('slider-ocup');
-        const sSub = document.getElementById('slider-sub');
-        
-        const vRend = document.getElementById('val-rend');
-        const vPre = document.getElementById('val-precio');
-        const vOcu = document.getElementById('val-ocup');
-        const vSub = document.getElementById('val-sub');
-        
-        const outCost = document.getElementById('sim-costo');
-        const outSav = document.getElementById('sim-ahorro');
-        
-        const costA_res = 1281.90; // Constante
+        // 4. Logistics
+        const ctxL = document.getElementById('logisticsChart');
+        const logData = []; const logLabels = [];
+        for(let i=6; i<=24; i+=2) { logLabels.push(i); logData.push(480/i); }
+        new Chart(ctxL, {
+            type: 'line',
+            data: { labels: logLabels, datasets: [{ label: 'Flete/Res ($)', data: logData, borderColor: '#e11d48', backgroundColor: 'rgba(225,29,72,0.1)', fill:true }] },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
 
+        // 5. Tornado (Reactive setup below)
+        const ctxT = document.getElementById('tornadoChart');
+        const tornadoChart = new Chart(ctxT, {
+            type: 'bar',
+            data: { labels: ['Precio Pie', 'Rendimiento', 'Subproductos', 'Camión'], datasets: [
+                { label: 'Optimista', data: [0,0,0,0], backgroundColor: '#10b981' },
+                { label: 'Pesimista', data: [0,0,0,0], backgroundColor: '#f43f5e' }
+            ]},
+            options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, scales: { x: { min: -0.4, max: 0.4 } } }
+        });
+
+        // SIMULATOR LOGIC (Tab 2)
+        const slPrice=document.getElementById('sl-price'), slYield=document.getElementById('sl-yield'), slSub=document.getElementById('sl-sub'), slTruck=document.getElementById('sl-truck'), slVol=document.getElementById('sl-vol');
         function calcSim() {
-            let rend = parseFloat(sRend.value) / 100.0;
-            let pVivo = parseFloat(sPre.value);
-            let ocup = parseInt(sOcu.value);
-            let sub = parseFloat(sSub.value);
-            
-            // Actualizar etiquetas UI
-            vRend.innerText = sRend.value + "%";
-            vPre.innerText = "$" + pVivo.toFixed(2);
-            vOcu.innerText = ocup + " reses";
-            vSub.innerText = "$" + sub.toFixed(0);
-            
-            // Matemáticas Escenario C
-            let peso_vivo_lb = 1000.0;
-            let carne_kg = (peso_vivo_lb * rend) / 2.2; // Aprox
-            let costo_vivo = peso_vivo_lb * pVivo;
-            let costo_neto_compra = costo_vivo - sub;
-            let flete_res = 480.0 / ocup;
-            let camal_res = 21.0;
-            
-            let costo_total_res = costo_neto_compra + flete_res + camal_res;
-            let costo_kg = costo_total_res / carne_kg;
-            let ahorro_res = costA_res - costo_total_res;
-            
-            // Render outputs
-            outCost.innerText = "$" + costo_kg.toFixed(4);
-            outSav.innerText = "$" + ahorro_res.toFixed(2);
-            
-            // Feedback de color si empeora
-            if(costo_kg > 5.1276) { outCost.classList.replace('text-gray-900', 'text-red-600'); } 
-            else { outCost.classList.replace('text-red-600', 'text-gray-900'); }
-        }
+            let p = parseFloat(slPrice.value), y = parseFloat(slYield.value), s = parseFloat(slSub.value), t = parseFloat(slTruck.value), v = parseFloat(slVol.value);
+            document.getElementById('val-price').innerText = '$'+p.toFixed(2);
+            document.getElementById('val-yield').innerText = y.toFixed(1)+'%';
+            document.getElementById('val-sub').innerText = '-$'+s;
+            document.getElementById('val-truck').innerText = t+' reses';
+            document.getElementById('val-vol').innerText = v+' reses/mes';
 
-        function resetSim() {
-            sRend.value = 55.0; sPre.value = 1.18; sOcu.value = 20; sSub.value = 100;
+            let kg = (1000*(y/100))/2.2;
+            let net = (1000*p) - s + 21 + (480/t);
+            let cost = net/kg;
+            let sav = 5.1276 - cost;
+            
+            document.getElementById('out-cost').innerText = '$'+cost.toFixed(4);
+            document.getElementById('out-res').innerText = '$'+net.toFixed(2);
+            document.getElementById('out-sav-kg').innerText = (sav>0?'+':'')+'$'+sav.toFixed(4);
+            document.getElementById('out-sav-pct').innerText = ((sav/5.1276)*100).toFixed(2)+'%';
+            document.getElementById('out-annual').innerText = '$'+(sav*kg*v*12).toLocaleString('en-US',{maximumFractionDigits:0});
+            document.getElementById('out-monthly').innerText = '$'+(sav*kg*v).toLocaleString('en-US',{maximumFractionDigits:0})+'/mes';
+
+            // Heatmap
+            let hm='<tr><td class="p-2 border font-bold text-left bg-slate-100">Rend \ Prec</td>';
+            const prices = [1.10, 1.14, 1.18, 1.22, 1.26, 1.30];
+            const yields = [52.0, 53.5, 55.0, 56.5, 58.0];
+            prices.forEach(pr => hm+=`<td class="p-2 border font-bold ${Math.abs(p-pr)<0.02?'bg-slate-900 text-white':'bg-slate-100'}">$${pr.toFixed(2)}</td>`);
+            hm+='</tr>';
+            document.getElementById('heatmap-head').innerHTML = hm;
+
+            let hb='';
+            yields.forEach(yd => {
+                hb+=`<tr><td class="p-2 border font-bold text-left ${Math.abs(y-yd)<0.6?'bg-slate-900 text-white':'bg-slate-50'}">${yd.toFixed(1)}%</td>`;
+                prices.forEach(pr => {
+                    let k = (1000*(yd/100))/2.2;
+                    let c = ((1000*pr)-s+21+(480/t))/k;
+                    let bg = c<4.6?'bg-emerald-50 text-emerald-900':c<=5.0?'bg-amber-50 text-amber-900':c<=5.1276?'bg-rose-50 text-rose-900':'bg-rose-200 font-bold';
+                    let sel = (Math.abs(p-pr)<0.02 && Math.abs(y-yd)<0.6)?'ring-2 ring-slate-900 scale-105 shadow-sm font-black':'';
+                    hb+=`<td class="p-2 border transition ${bg} ${sel}">$${c.toFixed(3)}</td>`;
+                });
+                hb+='</tr>';
+            });
+            document.getElementById('heatmap-body').innerHTML = hb;
+
+            // Tornado
+            let cCost = (pr, yl, sb, tr) => ((1000*pr)-sb+21+(480/tr)) / ((1000*(yl/100))/2.2);
+            let optP = cCost(1.10,y,s,t)-cost; let pesP = cCost(1.26,y,s,t)-cost;
+            let optY = cCost(p,58,s,t)-cost; let pesY = cCost(p,52,s,t)-cost;
+            let optS = cCost(p,y,135,t)-cost; let pesS = cCost(p,y,70,t)-cost;
+            let optT = cCost(p,y,s,24)-cost; let pesT = cCost(p,y,s,10)-cost;
+            tornadoChart.data.datasets[0].data = [-optP, -optY, -optS, -optT]; // Inverting for visual (negative is good/saving)
+            tornadoChart.data.datasets[1].data = [pesP, pesY, pesS, pesT];
+            tornadoChart.update();
+        }
+        [slPrice, slYield, slSub, slTruck, slVol].forEach(el => el.addEventListener('input', calcSim));
+        calcSim();
+
+        window.applyPreset = (type) => {
+            if(type==='base'){ slPrice.value=1.18; slYield.value=55; slSub.value=100; slTruck.value=20; }
+            if(type==='tormenta'){ slPrice.value=1.24; slYield.value=52.5; slSub.value=80; slTruck.value=14; }
+            if(type==='optimo'){ slPrice.value=1.15; slYield.value=56.5; slSub.value=130; slTruck.value=22; }
             calcSim();
         }
-        
-        function applyStress() {
-            // Tormenta perfecta
-            sRend.value = 52.0; sPre.value = 1.25; sOcu.value = 12; sSub.value = 75;
-            calcSim();
-        }
 
-        // Listeners
-        sRend.addEventListener('input', calcSim);
-        sPre.addEventListener('input', calcSim);
-        sOcu.addEventListener('input', calcSim);
-        sSub.addEventListener('input', calcSim);
+        // CDN DESPOSTE (Tab 3)
+        const slMolInt=document.getElementById('sl-mol-intro'), slMolTia=document.getElementById('sl-mol-tia'), inPNob=document.getElementById('in-pvp-noble'), inPMol=document.getElementById('in-pvp-mol');
+        function calcCDN() {
+            let mi = parseInt(slMolInt.value), mt = parseInt(slMolTia.value), pn = parseFloat(inPNob.value), pm = parseFloat(inPMol.value);
+            document.getElementById('out-mol-intro').innerText = mi+'%';
+            document.getElementById('out-mol-tia').innerText = mt+'%';
+            let ni = 100-14-mi; let nt = 100-14-mt;
+            document.getElementById('out-noble-comp').innerText = `${ni}% → ${nt}%`;
+            let revI = (ni/100)*pn + (mi/100)*pm; let revT = (nt/100)*pn + (mt/100)*pm;
+            let plus = revT - revI;
+            document.getElementById('out-plusvalia').innerText = '+$'+plus.toFixed(4)+'/kg';
+            let bt = 0.6276 + plus;
+            document.getElementById('out-ben-total').innerText = '$'+bt.toFixed(4)+'/kg';
+            document.getElementById('out-extra-mes').innerText = '$'+(plus*25000).toLocaleString('en-US',{maximumFractionDigits:0});
+        }
+        [slMolInt, slMolTia, inPNob, inPMol].forEach(el => el.addEventListener('input', calcCDN)); calcCDN();
+
+        // Q5 (Tab 4)
+        const chkCu=document.getElementById('chk-cuero'), chkCa=document.getElementById('chk-cabeza'), chkPa=document.getElementById('chk-patas');
+        const vCu=document.getElementById('val-cuero'), vCa=document.getElementById('val-cabeza'), vPa=document.getElementById('val-patas');
+        function calcQ5() {
+            let e=0;
+            if(chkCu.checked) e+=parseFloat(vCu.value); if(chkCa.checked) e+=parseFloat(vCa.value); if(chkPa.checked) e+=parseFloat(vPa.value);
+            let tr = 100+e;
+            document.getElementById('out-q5-rec').innerText = '$'+tr.toFixed(2)+' / res';
+            let nc = (1180-tr+21+24)/250;
+            document.getElementById('out-q5-cost').innerText = '$'+nc.toFixed(4)+' /kg';
+            let ann = (5.1276-nc)*250*100*12;
+            document.getElementById('out-q5-ann').innerText = '$'+ann.toLocaleString('en-US',{maximumFractionDigits:0})+' / año';
+        }
+        [chkCu, chkCa, chkPa, vCu, vCa, vPa].forEach(el => el.addEventListener('input', calcQ5)); calcQ5();
 
     </script>
 </body>
